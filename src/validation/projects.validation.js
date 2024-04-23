@@ -36,6 +36,31 @@ const postSchema = checkSchema({
       errorMessage: "Project must have atleast one tag",
     },
   },
+  image: {
+    custom: {
+      options: (value, { req }) => {
+        if (!req.file) {
+          return false;
+        }
+        // You can add additional validation for the image file if needed
+        return true;
+      },
+      errorMessage: "Image file is missing",
+    },
+    custom: {
+      options: (value, { req }) => {
+        if (!req.file) {
+          throw new Error("Image file is required");
+        }
+        if (!req.file.mimetype.startsWith("image")) {
+          throw new Error("Only images are supported");
+        }
+        // You can add additional validation for the image file if needed
+        return true;
+      },
+      //   errorMessage: "Only image file can be uploaded",
+    },
+  },
 });
 
 export { postSchema };
