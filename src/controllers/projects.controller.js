@@ -70,9 +70,7 @@ export const deleteProject = catchAsync(async (req, res, next) => {
 export const updateProject = catchAsync(async (req, res, next) => {
   if (!req.params.projectId)
     return next(new AppError("Project id missing", 400));
-  console.log(req.params.projectId);
-  console.log(req.body);
-  console.log(req.file);
+
   let body = { ...req.body };
   if (req.file != undefined) {
     const ext = req.file.mimetype.split("/")[1];

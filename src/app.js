@@ -8,6 +8,7 @@ import errorController from "./controllers/error.controller.js";
 
 //routers
 import projectRouter from "./routes/projects.route.js";
+import reviewRouter from "./routes/review.route.js";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/reviews", reviewRouter);
 
 //route catching
 app.all("*", (req, res, next) => {
