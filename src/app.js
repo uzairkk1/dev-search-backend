@@ -9,6 +9,7 @@ import errorController from "./controllers/error.controller.js";
 //routers
 import projectRouter from "./routes/projects.route.js";
 import reviewRouter from "./routes/review.route.js";
+import messageRouter from "./routes/message.routes.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/messages", messageRouter);
 
 //route catching
 app.all("*", (req, res, next) => {
