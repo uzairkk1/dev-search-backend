@@ -37,7 +37,7 @@ export default class Email {
       "Please verify your account"
     );
   }
-  async passwordReset() {
+  async sendPasswordResetEmail() {
     await this.sendEmail(
       `<div>We received your password reset request, you can reset it by clicking this <a href=${this.url} target='_blank' > link </a> <p>This is only valid for 10 mins</p> </div>`,
       "Password Reset"
