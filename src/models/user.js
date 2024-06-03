@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
-import Email from "../utils/Email";
-import { ROLES_TYPES, AUTH_TYPES } from "../utils/constants";
+import Email from "../utils/Email.js";
+import { ROLES_TYPES, AUTH_TYPES } from "../utils/constants.js";
 
 const socialSchema = new Schema({
   github: String,
@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide your name"],
       trim: true,
+      min: [3],
+    },
+    username: {
+      type: String,
+      required: [true, "Please provide your username"],
+      trim: true,
+      unique: true,
+      lowercase: true,
       min: [3],
     },
     email: {
@@ -90,7 +98,7 @@ userSchema.pre("save", async function (next) {
     this.confirmPassword = undefined;
   }
   if (this.isModified("email")) {
-    this.emailVerificationToken = this.createEmailVerificationToken();
+    this.emailVToken = this.createEmailVerificationToken();
   }
 
   this.wasNew = this.isNew;
@@ -116,7 +124,7 @@ userSchema.post("save", async function (doc) {
   if (doc && (doc.isEmailModified || doc.wasNew)) {
     const emailClient = new Email(
       doc,
-      `${process.env.FRONT_END_BASE_URL}/verify/${doc.emailToken}`
+      `${process.env.SERVER_BASE_URL}/api/v1/users/auth/emailVerification/${doc.emailVToken}`
     );
 
     await emailClient.sendWelcomeEmail();

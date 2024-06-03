@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import AppError from "./utils/AppError.js";
 
@@ -16,6 +17,12 @@ import userRouter from "./routes/user.routes.js";
 import { check } from "express-validator";
 
 const app = express();
+
+const corsOptions = {
+  origin: process.env.FRONT_END_BASE_URL || "http://localhost:5173",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

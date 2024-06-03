@@ -13,7 +13,9 @@ import {
   verifyEmail,
 } from "../controllers/auth.controller.js";
 
-router.post("/auth/register", registerUser);
+import { registerAuthValidation } from "../validation/auth.validation.js";
+
+router.post("/auth/register", registerAuthValidation, registerUser);
 router.get("/auth/refresh", refreshToken);
 router.post("/auth/login", login);
 router.post("/auth/logout", logout);
@@ -21,6 +23,6 @@ router.post("/auth/currentUser", getCurrentUser);
 router.post("/auth/email", changeEmail);
 router.post("/auth/forgotPassword", forgotPassword);
 router.post("/auth/resetPassword/:token", resetPassword);
-router.get("/auth/emailVerification", verifyEmail);
+router.get("/auth/emailVerification/:emailToken", verifyEmail);
 
 export default router;

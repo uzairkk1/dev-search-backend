@@ -4,6 +4,7 @@ export default class Email {
   constructor(user, url) {
     this.to = user.email;
     this.name = user.fullName;
+    this.url = url;
     this.from = `Uzair Kaimkhani <${process.env.EMAIL_FROM}>`;
   }
 
