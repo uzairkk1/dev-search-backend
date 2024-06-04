@@ -124,7 +124,7 @@ userSchema.post("save", async function (doc) {
   if (doc && (doc.isEmailModified || doc.wasNew)) {
     const emailClient = new Email(
       doc,
-      `${process.env.SERVER_BASE_URL}/api/v1/users/auth/emailVerification/${doc.emailVToken}`
+      `${process.env.FRONT_END_BASE_URL}/verify/email/${doc.emailVToken}`
     );
 
     await emailClient.sendWelcomeEmail();

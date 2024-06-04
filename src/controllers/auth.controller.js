@@ -152,12 +152,8 @@ export const refreshToken = catchAsync(async (req, res, next) => {
 
 export const verifyEmail = catchAsync(async (req, res, next) => {
   let verificationToken = req.params.emailToken;
-  if (!verificationToken) {
-    // return next(new AppError("Invalid token provided", 404));
-    return res.redirect(
-      `${process.env.FRONT_END_BASE_URL}/emailVerification?type=failed`
-    );
-  }
+  if (!verificationToken)
+    return next(new AppError("Invalid token provided", 404));
 
   verificationToken = crypto
     .createHash("sha256")
@@ -169,11 +165,7 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
     emailVerificationTokenExpiration: { $gt: Date.now() },
   });
 
-  // if (!user) return next(new AppError("Invalid token provided", 404));
-  if (!user)
-    return res.redirect(
-      `${process.env.FRONT_END_BASE_URL}/emailVerification?type=failed`
-    );
+  if (!user) return next(new AppError("Invalid token provided", 404));
 
   user.emailVerificationToken = undefined;
   user.emailVerificationTokenExpiration = undefined;
@@ -181,13 +173,10 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
 
   await user.save();
 
-  // res.status(200).json({
-  //   status: "Success",
-  //   message: "Your email has been verified. You can now login and use the app",
-  // });
-  return res.redirect(
-    `${process.env.FRONT_END_BASE_URL}/emailVerification?type=success`
-  );
+  res.status(200).json({
+    status: "Success",
+    message: "Your email has been verified. You can now login and use the app",
+  });
 });
 
 export const changeEmail = catchAsync(async (req, res, next) => {
